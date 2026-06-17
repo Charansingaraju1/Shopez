@@ -18,7 +18,7 @@ setStocks(usStocks);
 const buyStock = async (stock) => {
 const user = JSON.parse(localStorage.getItem("user"));
 
-```
+
 if (!user) {
   alert("Please Login First");
   return;
@@ -42,8 +42,9 @@ const res = await fetch(
 
 const data = await res.json();
 
+console.log(data);
 alert(data.message);
-```
+
 
 };
 
@@ -54,7 +55,7 @@ onClick={() => window.history.back()}
 >
 ⬅ Back </button>
 
-```
+
   <h1>🇺🇸 US Stock Market</h1>
 
   <div

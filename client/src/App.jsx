@@ -157,23 +157,25 @@ function Home() {
     </Link>
   </>
 )}
-        <button
-  onClick={() => {
-    localStorage.removeItem("user");
-    window.location.href = "/login";
-  }}
-  style={{
-    padding: "20px 40px",
-    fontSize: "20px",
-    border: "none",
-    borderRadius: "10px",
-    background: "#111827",
-    color: "white",
-    cursor: "pointer",
-  }}
->
-  🚪 Logout
-</button>
+{user && (
+  <button
+    onClick={() => {
+      localStorage.removeItem("user");
+      window.location.href = "/login";
+    }}
+    style={{
+      padding: "20px 40px",
+      fontSize: "20px",
+      border: "none",
+      borderRadius: "10px",
+      background: "#111827",
+      color: "white",
+      cursor: "pointer",
+    }}
+  >
+    🚪 Logout
+  </button>
+)}
       </div>
 
       <div
