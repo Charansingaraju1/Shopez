@@ -17,7 +17,7 @@ function Portfolio() {
   const sellStock = async (id) => {
     try {
       const res = await fetch(
-        `https://shopez-1-8mwl.onrender.com/portfolio/${id}`
+        `https://shopez-1-8mwl.onrender.com/portfolio/${id}`,
         {
           method: "DELETE",
         }
