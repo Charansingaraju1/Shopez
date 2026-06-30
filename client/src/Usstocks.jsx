@@ -1,94 +1,109 @@
 import { useEffect, useState } from "react";
 
 function UsStocks() {
-const [stocks, setStocks] = useState([]);
+  const [stocks, setStocks] = useState([]);
 
-useEffect(() => {
-fetch("https://shopez-1-8mwl.onrender.com/products")
-.then((res) => res.json())
-.then((data) => {
-const usStocks = data.filter(
-(stock) => stock.market === "US"
-);
-setStocks(usStocks);
-})
-.catch((err) => console.log(err));
-}, []);
+  useEffect(() => {
+    fetch("https://shopez-1-8mwl.onrender.com/products")
+      .then((res) => res.json())
+      .then((data) => {
+        const usStocks = data.filter(
+          (stock) => stock.market === "US"
+        );
 
-const buyStock = async (stock) => {
-const user = JSON.parse(localStorage.getItem("user"));
+        setStocks(usStocks);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
+  const buyStock = async (stock) => {
+    const user = JSON.parse(localStorage.getItem("user"));
 
-if (!user) {
-  alert("Please Login First");
-  return;
-}
+    if (!user) {
+      alert("Please Login First");
+      return;
+    }
 
-const res = await fetch(
-  "https://shopez-1-8mwl.onrender.com/portfolio/add",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: user.email,
-      stockName: stock.name,
-      price: stock.price,
-      market: stock.market,
-    }),
-  }
-);
+    try {
+      const res = await fetch(
+        "https://shopez-1-8mwl.onrender.com/portfolio/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            stockName: stock.name,
+            price: stock.price,
+            market: stock.market,
+          }),
+        }
+      );
 
-const data = await res.json();
+      const data = await res.json();
 
-console.log(data);
-alert(data.message);
+      alert(data.message);
+    } catch (err) {
+      console.log(err);
+      alert("Server Error");
+    }
+  };
 
+  return (
+    <div style={{ padding: "30px" }}>
+      <button onClick={() => window.history.back()}>
+        ⬅ Back
+      </button>
 
-};
+      <h1>🇺🇸 US Stock Market</h1>
 
-return (
-<div style={{ padding: "30px" }}>
-<button
-onClick={() => window.history.back()}
->
-⬅ Back </button>
-
-
-  <h1>🇺🇸 US Stock Market</h1>
-
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(2,1fr)",
-      gap: "20px",
-    }}
-  >
-    {stocks.map((stock) => (
       <div
-        key={stock.id}
         style={{
-          border: "1px solid #ddd",
-          padding: "15px",
-          borderRadius: "10px",
+          display: "grid",
+          gridTemplateColumns: "repeat(2,1fr)",
+          gap: "20px",
+          marginTop: "20px",
         }}
       >
-        <h3>{stock.name}</h3>
-        <p>${stock.price}</p>
+        {stocks.map((stock) => (
+          <div
+            key={stock.id}
+            style={{
+              border: "1px solid #ddd",
+              padding: "15px",
+              borderRadius: "10px",
+              background: "white",
+            }}
+          >
+            <h3>{stock.name}</h3>
 
-        <button
-          onClick={() => buyStock(stock)}
-        >
-          Buy
-        </button>
+            <p>
+              <b>Price:</b> ${stock.price}
+            </p>
+
+            <p>
+              <b>Market:</b> {stock.market}
+            </p>
+
+            <button
+              onClick={() => buyStock(stock)}
+              style={{
+                background: "#2563eb",
+                color: "white",
+                border: "none",
+                padding: "10px 15px",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Buy Stock
+            </button>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
-
-
-);
+    </div>
+  );
 }
 
 export default UsStocks;
