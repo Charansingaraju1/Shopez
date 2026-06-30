@@ -10,14 +10,24 @@ const Portfolio = require("./models/Portfolio");
 
 const app = express();
 
-app.use(cors());
+// CORS
+app.use(
+  cors({
+    origin: "https://shopez-client.onrender.com",
+    methods: ["GET", "POST", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
+// MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
+// Home Route
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -25,6 +35,7 @@ app.get("/", (req, res) => {
   });
 });
 
+// Products Route
 app.get("/products", (req, res) => {
   res.json([
     { id: 1, name: "Tata Motors", price: 700, market: "India" },
@@ -51,6 +62,7 @@ app.get("/products", (req, res) => {
   ]);
 });
 
+// Register
 app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -80,6 +92,7 @@ app.post("/register", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+
     res.json({
       success: false,
       message: "Server Error",
@@ -87,6 +100,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// Login
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -100,7 +114,10 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
 
     if (!isMatch) {
       return res.json({
@@ -119,6 +136,7 @@ app.post("/login", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+
     res.json({
       success: false,
       message: "Server Error",
@@ -126,9 +144,11 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Add Stock
 app.post("/portfolio/add", async (req, res) => {
   try {
-    const { email, stockName, price, market } = req.body;
+    const { email, stockName, price, market } =
+      req.body;
 
     const stock = new Portfolio({
       email,
@@ -141,10 +161,11 @@ app.post("/portfolio/add", async (req, res) => {
 
     res.json({
       success: true,
-      message: "Stock Added",
+      message: "Stock Added Successfully",
     });
   } catch (err) {
     console.log(err);
+
     res.json({
       success: false,
       message: "Server Error",
@@ -152,6 +173,7 @@ app.post("/portfolio/add", async (req, res) => {
   }
 });
 
+// Get Portfolio
 app.get("/portfolio/:email", async (req, res) => {
   try {
     const stocks = await Portfolio.find({
@@ -165,16 +187,20 @@ app.get("/portfolio/:email", async (req, res) => {
   }
 });
 
+// Sell Stock
 app.delete("/portfolio/:id", async (req, res) => {
   try {
-    await Portfolio.findByIdAndDelete(req.params.id);
+    await Portfolio.findByIdAndDelete(
+      req.params.id
+    );
 
     res.json({
       success: true,
-      message: "Stock Sold",
+      message: "Stock Sold Successfully",
     });
   } catch (err) {
     console.log(err);
+
     res.json({
       success: false,
       message: "Server Error",
@@ -182,8 +208,11 @@ app.delete("/portfolio/:id", async (req, res) => {
   }
 });
 
+// Start Server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
+  console.log(
+    "Server running on port " + PORT
+  );
 });
