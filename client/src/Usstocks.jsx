@@ -4,7 +4,7 @@ function UsStocks() {
 const [stocks, setStocks] = useState([]);
 
 useEffect(() => {
-fetch("http://localhost:5000/products")
+fetch("https://shopez-1-8mwl.onrender.com/products")
 .then((res) => res.json())
 .then((data) => {
 const usStocks = data.filter(
@@ -25,7 +25,7 @@ if (!user) {
 }
 
 const res = await fetch(
-  "http://localhost:5000/portfolio/add",
+  "https://shopez-1-8mwl.onrender.com/portfolio/add",
   {
     method: "POST",
     headers: {

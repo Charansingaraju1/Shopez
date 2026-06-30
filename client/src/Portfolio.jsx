@@ -8,7 +8,7 @@ function Portfolio() {
   useEffect(() => {
     if (!user) return;
 
-    fetch(`http://localhost:5000/portfolio/${user.email}`)
+    fetch(`https://shopez-1-8mwl.onrender.com/portfolio/${user.email}`)
       .then((res) => res.json())
       .then((data) => setStocks(data))
       .catch((err) => console.log(err));
@@ -17,7 +17,7 @@ function Portfolio() {
   const sellStock = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/portfolio/${id}`,
+        `https://shopez-1-8mwl.onrender.com/portfolio/${id}`
         {
           method: "DELETE",
         }

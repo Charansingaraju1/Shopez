@@ -4,7 +4,7 @@ function IndianStocks() {
   const [stocks, setStocks] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch("https://shopez-1-8mwl.onrender.com")
       .then((res) => res.json())
       .then((data) => {
         const indianStocks = data.filter(

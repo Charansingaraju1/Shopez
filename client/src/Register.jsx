@@ -7,7 +7,7 @@ function Register() {
 
   const registerUser = async () => {
     try {
-      const res = await fetch("http://localhost:5000/register", {
+      const res = await fetch("https://shopez-1-8mwl.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
