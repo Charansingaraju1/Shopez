@@ -1,39 +1,5 @@
-const express = require('express');
-const cors = require('cors');
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-const products = [
-  {
-    id: 1,
-    name: "Tata Motors",
-    price: 700
-  },
-  {
-    id: 2,
-    name: "Apple",
-    price: 150
-  },
-  {
-    id: 3,
-    name: "Tesla",
-    price: 200
-  }
-];
-
-app.get('/', (req, res) => {
-  res.json({ message: 'ShopEZ API Running' });
-});
-
-app.get('/products', (req, res) => {
-  res.json(products);
-});
-
-const PORT = 5000;
-
-app.listen(PORT, () => {
-  console.log('Server running on port ' + PORT);
-});
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9;
+}
