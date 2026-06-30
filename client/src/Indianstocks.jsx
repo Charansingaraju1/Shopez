@@ -4,7 +4,7 @@ function IndianStocks() {
   const [stocks, setStocks] = useState([]);
 
   useEffect(() => {
-    fetch("https://shopez-1-8mwl.onrender.com")
+    fetch("https://shopez-1-8mwl.onrender.com/products")
       .then((res) => res.json())
       .then((data) => {
         const indianStocks = data.filter(
@@ -25,7 +25,7 @@ function IndianStocks() {
 
     try {
       const res = await fetch(
-        "http://localhost:5000/portfolio/add",
+        "https://shopez-1-8mwl.onrender.com/portfolio/add",
         {
           method: "POST",
           headers: {
@@ -41,8 +41,6 @@ function IndianStocks() {
       );
 
       const data = await res.json();
-
-      console.log(data);
 
       alert(data.message);
     } catch (err) {
@@ -64,6 +62,7 @@ function IndianStocks() {
           display: "grid",
           gridTemplateColumns: "repeat(2,1fr)",
           gap: "20px",
+          marginTop: "20px",
         }}
       >
         {stocks.map((stock) => (
@@ -73,15 +72,31 @@ function IndianStocks() {
               border: "1px solid #ddd",
               padding: "15px",
               borderRadius: "10px",
+              background: "white",
             }}
           >
             <h3>{stock.name}</h3>
-            <p>₹{stock.price}</p>
+
+            <p>
+              <b>Price:</b> ₹{stock.price}
+            </p>
+
+            <p>
+              <b>Market:</b> {stock.market}
+            </p>
 
             <button
               onClick={() => buyStock(stock)}
+              style={{
+                background: "green",
+                color: "white",
+                border: "none",
+                padding: "10px 15px",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
             >
-              Buy
+              Buy Stock
             </button>
           </div>
         ))}
